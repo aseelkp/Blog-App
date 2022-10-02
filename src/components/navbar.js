@@ -2,17 +2,25 @@
 import { Fragment } from "react";
 import { Disclosure } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Link } from "react-router-dom";
+import  {useHistory} from "react-router-dom";
 
 const navigation = [
   { name: "Home", href: "/", current: true },
-  { name: "New Blog", href: "create", current: false },
+  { name: "New Blog", href: "/create/", current: false },
 ];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
+
 export function Nav() {
+  const history = useHistory();
+  const routeMan = (route)=>() =>{
+    console.log("routed");
+    history.push(route);
+  }
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
@@ -37,9 +45,9 @@ export function Nav() {
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">
                     {navigation.map((item) => (
-                      <a
+                      <div
                         key={item.name}
-                        href={item.href}
+                        onClick={routeMan(item.href)}
                         className={classNames(
                           item.current
                             ? "bg-gray-900 text-white"
@@ -49,7 +57,7 @@ export function Nav() {
                         aria-current={item.current ? "page" : undefined}
                       >
                         {item.name}
-                      </a>
+                      </div>
                     ))}
                   </div>
                 </div>
